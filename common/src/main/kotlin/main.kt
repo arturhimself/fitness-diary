@@ -1,3 +1,7 @@
 fun main() {
-    println("Hello")
+    println(getHello())
 }
+
+fun getHello() = "Hello!"
+
+fun getHello(name: String) = "Hello, $name!"

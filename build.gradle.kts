@@ -1,5 +1,7 @@
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") apply false
+
+    id("org.openapi.generator") apply false
 }
 
 group = "ru.artursitnikov"

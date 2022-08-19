@@ -1,0 +1,363 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Fitness Diary API
+tags:
+  - name: coach
+paths:
+  /api/v1/coach/create:
+    post:
+      tags:
+        - coach
+      summary: Create a new coach
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoachCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Successful creation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoachCreateResponse'
+
+  /api/v1/coach/read:
+    post:
+      tags:
+        - coach
+      summary: Read a coach
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoachReadRequest'
+        required: true
+      responses:
+        200:
+          description: Successful creation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoachReadResponse'
+
+  /api/v1/coach/update:
+    post:
+      tags:
+        - coach
+      summary: Update a coach
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoachUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoachUpdateResponse'
+
+  /api/v1/coach/delete:
+    post:
+      tags:
+        - coach
+      summary: Delete a coach
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoachDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Successful deletion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoachDeleteResponse'
+
+  /api/v1/coach/list:
+    post:
+      tags:
+        - coach
+      summary: List of coaches
+      operationId: coachList
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoachListRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoachListResponse'
+
+components:
+  schemas:
+    IRequest:
+      type: object
+      description: Base interface for requests
+      properties:
+        requestType:
+          type: string
+          description: Field discriminator for getting a type of request
+          example: create
+        requestId:
+          type: string
+          description: Id for debug
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/CoachCreateRequest'
+          read: '#/components/schemas/CoachReadRequest'
+          update: '#/components/schemas/CoachUpdateRequest'
+          delete: '#/components/schemas/CoachDeleteRequest'
+          list: '#/components/schemas/CoachListRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IResponse:
+      type: object
+      description: Base interface for responses
+      properties:
+        responseType:
+          type: string
+          description: Field discriminator for getting a type of request
+          example: create
+        requestId:
+          type: string
+          description: Id of request for debug
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/CoachCreateResponse'
+          read: '#/components/schemas/CoachReadResponse'
+          update: '#/components/schemas/CoachUpdateResponse'
+          delete: '#/components/schemas/CoachDeleteResponse'
+          list: '#/components/schemas/CoachListResponse'
+
+    CoachId:
+      type: integer
+      format: int64
+      description: Id of a coach
+
+    ClientId:
+      type: integer
+      format: int64
+      description: If of client
+
+    CoachLock:
+      type: string
+      description: Version of optimistic lock
+
+    BaseCoach:
+      type: object
+      description: Object for create and update action
+      properties:
+        email:
+          type: string
+          description: Email for registration
+          example: john@email.com
+        password:
+          type: string
+        name:
+          type: string
+          description: Name of a coach
+        description:
+          type: string
+          description: What a coach telling about himself
+
+    CoachCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseCoach'
+
+    CoachCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/CoachRequestDebug'
+        - type: object
+          properties:
+            coach:
+              $ref: '#/components/schemas/CoachCreateObject'
+
+    CoachReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/CoachId'
+
+    CoachReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/CoachRequestDebug'
+        - type: object
+          properties:
+            coach:
+              $ref: '#/components/schemas/CoachReadObject'
+
+    CoachUpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseCoach'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/CoachId'
+            lock:
+              $ref: '#/components/schemas/CoachLock'
+
+    CoachUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/CoachRequestDebug'
+        - type: object
+          properties:
+            coach:
+              $ref: '#/components/schemas/CoachUpdateObject'
+
+    CoachDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/CoachId'
+            lock:
+              $ref: '#/components/schemas/CoachLock'
+
+    CoachDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/CoachRequestDebug'
+        - type: object
+          properties:
+            ad:
+              $ref: '#/components/schemas/CoachDeleteObject'
+
+    CoachListRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/CoachRequestDebug'
+        - type: object
+
+    CoachResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseCoach'
+        - type: object
+          description: Object for response
+          properties:
+            id:
+              $ref: '#/components/schemas/CoachId'
+            clients:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClientId'
+            lock:
+              $ref: '#/components/schemas/CoachLock'
+
+    CoachResponseSingle:
+      allOf:
+        - type: object
+          description: Response with one object
+          properties:
+            ad:
+              $ref: '#/components/schemas/CoachResponseObject'
+
+    CoachResponseMulti:
+      allOf:
+        - type: object
+          description: List of objects
+          properties:
+            list:
+              type: array
+              items:
+                $ref: '#/components/schemas/CoachResponseObject'
+
+    CoachCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/CoachResponseSingle'
+
+    CoachReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/CoachResponseSingle'
+
+    CoachUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/CoachResponseSingle'
+
+    CoachDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/CoachResponseSingle'
+
+    CoachListResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/CoachResponseMulti'
+
+    # STUBS ======================
+    CoachRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    CoachRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/CoachDebug'
+
+    CoachDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/CoachRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/CoachRequestDebugStubs'
+
+    CoachRequestDebugStubs:
+      type: string
+      description: List of stubs
+      enum:
+        - success
+        - notFound
+        - badId
+        - badName
+        - badDescription
+        - cannotDelete
