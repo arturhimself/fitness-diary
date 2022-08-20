@@ -9,7 +9,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-    testImplementation(kotlin("test-junit"))
+    testImplementation(kotlin("test"))
 }
 
 sourceSets {
@@ -53,4 +53,7 @@ tasks {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }

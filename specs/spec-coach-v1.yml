@@ -262,7 +262,7 @@ components:
         - $ref: '#/components/schemas/CoachRequestDebug'
         - type: object
           properties:
-            ad:
+            coach:
               $ref: '#/components/schemas/CoachDeleteObject'
 
     CoachListRequest:
@@ -291,7 +291,7 @@ components:
         - type: object
           description: Response with one object
           properties:
-            ad:
+            coach:
               $ref: '#/components/schemas/CoachResponseObject'
 
     CoachResponseMulti:
@@ -359,5 +359,6 @@ components:
         - notFound
         - badId
         - badName
+        - badEmail
         - badDescription
         - cannotDelete
