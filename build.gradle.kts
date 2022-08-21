@@ -4,7 +4,7 @@ plugins {
     id("org.openapi.generator") apply false
 }
 
-group = "ru.artursitnikov"
+group = "ru.artursitnikov.fitness"
 version = "1.0-SNAPSHOT"
 
 allprojects {

@@ -1,4 +1,4 @@
-package ru.artursitnikov.api.v1
+package ru.artursitnikov.fitness.api.v1
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper

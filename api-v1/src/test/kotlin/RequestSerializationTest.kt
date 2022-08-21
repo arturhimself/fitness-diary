@@ -1,7 +1,8 @@
 package ru.artursitnikov.api.v1
 
 import org.junit.jupiter.api.Test
-import ru.artursitnikov.api.v1.models.*
+import ru.artursitnikov.fitness.api.v1.models.*
+import ru.artursitnikov.fitness.api.v1.apiV1Mapper
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 

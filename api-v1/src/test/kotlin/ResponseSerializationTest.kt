@@ -1,10 +1,11 @@
 package ru.artursitnikov.api.v1
 
 import org.junit.jupiter.api.Test
-import ru.artursitnikov.api.v1.models.CoachCreateResponse
-import ru.artursitnikov.api.v1.models.CoachResponseObject
-import ru.artursitnikov.api.v1.models.IResponse
-import ru.artursitnikov.api.v1.models.ResponseResult
+import ru.artursitnikov.fitness.api.v1.models.CoachCreateResponse
+import ru.artursitnikov.fitness.api.v1.models.CoachResponseObject
+import ru.artursitnikov.fitness.api.v1.models.IResponse
+import ru.artursitnikov.fitness.api.v1.models.ResponseResult
+import ru.artursitnikov.fitness.api.v1.apiV1Mapper
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 

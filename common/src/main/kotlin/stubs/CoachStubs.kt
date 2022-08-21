@@ -1,13 +1,13 @@
-package stubs
+package ru.artursitnikov.fitness.common.stubs
 
 enum class CoachStubs {
     NONE,
     SUCCESS,
     NOT_FOUND,
     BAD_ID,
-    BAD_TITLE,
+    BAD_EMAIL,
+    BAD_PASSWORD,
+    BAD_NAME,
     BAD_DESCRIPTION,
-    BAD_VISIBILITY,
     CANNOT_DELETE,
-    BAD_SEARCH_STRING,
 }

@@ -1,6 +1,8 @@
-import models.*
-import stubs.CoachStubs
+package ru.artursitnikov.fitness.common
+
 import kotlinx.datetime.Instant
+import ru.artursitnikov.fitness.common.models.*
+import ru.artursitnikov.fitness.common.stubs.CoachStubs
 
 data class CoachContext(
     var command: CoachCommand = CoachCommand.NONE,

@@ -12,3 +12,4 @@ pluginManagement {
 
 include("common")
 include("api-v1")
+include("mappers-v1")

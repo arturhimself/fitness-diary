@@ -1,4 +1,4 @@
-package models
+package ru.artursitnikov.fitness.common.models
 
 data class GeneralError(
     val code: String = "",

@@ -1,5 +1,4 @@
-package models
-
+package ru.artursitnikov.fitness.common.models
 
 @JvmInline
 value class RequestId(private val id: String) {

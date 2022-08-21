@@ -360,5 +360,6 @@ components:
         - badId
         - badName
         - badEmail
+        - badPassword
         - badDescription
         - cannotDelete
