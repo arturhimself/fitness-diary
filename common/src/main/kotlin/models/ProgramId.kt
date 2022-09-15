@@ -1,11 +1,11 @@
 package ru.artursitnikov.fitness.common.models
 
 @JvmInline
-value class CoachId(private val id: Long) {
+value class ProgramId(private val id: Long) {
     fun asString(): String = id.toString()
     fun asLong(): Long = id
 
     companion object {
-        val NONE = CoachId(0L)
+        val NONE = ProgramId(0L)
     }
 }

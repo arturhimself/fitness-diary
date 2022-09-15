@@ -1,90 +1,85 @@
 import exceptions.UnknownRequestClass
 import ru.artursitnikov.fitness.api.v1.models.*
-import ru.artursitnikov.fitness.common.CoachContext
+import ru.artursitnikov.fitness.common.ProgramContext
 import ru.artursitnikov.fitness.common.models.*
-import ru.artursitnikov.fitness.common.stubs.CoachStubs
+import ru.artursitnikov.fitness.common.stubs.ProgramStubs
 
-fun CoachContext.fromTransport(request: IRequest) = when (request) {
-    is CoachCreateRequest -> fromTransport(request)
-    is CoachReadRequest -> fromTransport(request)
-    is CoachUpdateRequest -> fromTransport(request)
-    is CoachDeleteRequest -> fromTransport(request)
-    is CoachListRequest -> fromTransport(request)
+fun ProgramContext.fromTransport(request: IRequest) = when (request) {
+    is ProgramCreateRequest -> fromTransport(request)
+    is ProgramReadRequest -> fromTransport(request)
+    is ProgramUpdateRequest -> fromTransport(request)
+    is ProgramDeleteRequest -> fromTransport(request)
+    is ProgramListRequest -> fromTransport(request)
     else -> throw UnknownRequestClass(request.javaClass, this.javaClass)
 }
 
-fun CoachContext.fromTransport(request: CoachCreateRequest) {
-    command = CoachCommand.CREATE
+fun ProgramContext.fromTransport(request: ProgramCreateRequest) {
+    command = ProgramCommand.CREATE
     requestId = request.requestId()
-    coachRequest = request.coach?.toInternal() ?: Coach()
+    programRequest = request.program?.toInternal() ?: Program()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-fun CoachContext.fromTransport(request: CoachReadRequest) {
-    command = CoachCommand.READ
+fun ProgramContext.fromTransport(request: ProgramReadRequest) {
+    command = ProgramCommand.READ
     requestId = request.requestId()
-    coachRequest = request.coach?.id.toCoachWithId()
+    programRequest = request.program?.id.toProgramWithId()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-fun CoachContext.fromTransport(request: CoachUpdateRequest) {
-    command = CoachCommand.UPDATE
+fun ProgramContext.fromTransport(request: ProgramUpdateRequest) {
+    command = ProgramCommand.UPDATE
     requestId = request.requestId()
-    coachRequest = request.coach?.toInternal() ?: Coach()
+    programRequest = request.program?.toInternal() ?: Program()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-fun CoachContext.fromTransport(request: CoachDeleteRequest) {
-    command = CoachCommand.DELETE
+fun ProgramContext.fromTransport(request: ProgramDeleteRequest) {
+    command = ProgramCommand.DELETE
     requestId = request.requestId()
-    coachRequest = request.coach?.id.toCoachWithId()
+    programRequest = request.program?.id.toProgramWithId()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-fun CoachContext.fromTransport(request: CoachListRequest) {
-    command = CoachCommand.READ
+fun ProgramContext.fromTransport(request: ProgramListRequest) {
+    command = ProgramCommand.READ
     requestId = request.requestId()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-private fun Long?.toCoachId() = this?.let { CoachId(it) } ?: CoachId.NONE
-private fun Long?.toCoachWithId() = Coach(id = this.toCoachId())
+private fun Long?.toProgramId() = this?.let { ProgramId(it) } ?: ProgramId.NONE
+private fun Long?.toProgramWithId() = Program(id = this.toProgramId())
 private fun IRequest.requestId() = this.requestId?.let { RequestId(it) } ?: RequestId.NONE
 
-private fun CoachDebug?.transportToStubCase(): CoachStubs = when(this?.stub) {
-    CoachRequestDebugStubs.SUCCESS -> CoachStubs.SUCCESS
-    CoachRequestDebugStubs.NOT_FOUND -> CoachStubs.NOT_FOUND
-    CoachRequestDebugStubs.BAD_ID -> CoachStubs.BAD_ID
-    CoachRequestDebugStubs.BAD_EMAIL -> CoachStubs.BAD_EMAIL
-    CoachRequestDebugStubs.BAD_PASSWORD -> CoachStubs.BAD_PASSWORD
-    CoachRequestDebugStubs.BAD_NAME -> CoachStubs.BAD_NAME
-    CoachRequestDebugStubs.BAD_DESCRIPTION -> CoachStubs.BAD_DESCRIPTION
-    CoachRequestDebugStubs.CANNOT_DELETE -> CoachStubs.CANNOT_DELETE
-    null -> CoachStubs.NONE
+private fun ProgramDebug?.transportToStubCase(): ProgramStubs = when(this?.stub) {
+    ProgramRequestDebugStubs.SUCCESS -> ProgramStubs.SUCCESS
+    ProgramRequestDebugStubs.NOT_FOUND -> ProgramStubs.NOT_FOUND
+    ProgramRequestDebugStubs.BAD_ID -> ProgramStubs.BAD_ID
+    ProgramRequestDebugStubs.BAD_TITLE -> ProgramStubs.BAD_TITLE
+    ProgramRequestDebugStubs.CANNOT_DELETE -> ProgramStubs.CANNOT_DELETE
+    null -> ProgramStubs.NONE
 }
 
-private fun CoachDebug?.transportToWorkMode(): WorkMode = when(this?.mode) {
-    CoachRequestDebugMode.PROD -> WorkMode.PROD
-    CoachRequestDebugMode.TEST -> WorkMode.TEST
-    CoachRequestDebugMode.STUB -> WorkMode.STUB
+private fun ProgramDebug?.transportToWorkMode(): WorkMode = when(this?.mode) {
+    ProgramRequestDebugMode.PROD -> WorkMode.PROD
+    ProgramRequestDebugMode.TEST -> WorkMode.TEST
+    ProgramRequestDebugMode.STUB -> WorkMode.STUB
     null -> WorkMode.PROD
 }
 
-private fun CoachCreateObject.toInternal() = Coach(
-    email = this.email ?: "",
-    password = this.password ?: "",
-    name = this.name ?: "",
+private fun ProgramCreateObject.toInternal() = Program(
+    title = this.title ?: "",
     description = this.description ?: "",
 )
 
-private fun CoachUpdateObject.toInternal() = Coach(
-    email = this.email ?: "",
-    password = this.password ?: "",
-    name = this.name ?: "",
+private fun ProgramUpdateObject.toInternal() = Program(
+    ownerId = this.ownerId?.let { UserId(this.ownerId!!) } ?: UserId.NONE,
+    clientId = this.clientId?.let { UserId(this.clientId!!) } ?: UserId.NONE,
+    title = this.title ?: "",
     description = this.description ?: "",
 )

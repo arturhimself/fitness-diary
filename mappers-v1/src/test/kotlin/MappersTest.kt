@@ -1,51 +1,49 @@
 import org.junit.jupiter.api.Test
 import ru.artursitnikov.fitness.api.v1.models.*
-import ru.artursitnikov.fitness.common.CoachContext
+import ru.artursitnikov.fitness.common.ProgramContext
 import ru.artursitnikov.fitness.common.models.*
-import ru.artursitnikov.fitness.common.stubs.CoachStubs
+import ru.artursitnikov.fitness.common.stubs.ProgramStubs
 import kotlin.test.assertEquals
 
 class MappersTest {
     @Test
     fun fromTransport() {
-        val request = CoachCreateRequest(
+        val request = ProgramCreateRequest(
             requestId = "123",
-            debug = CoachDebug(
-                mode = CoachRequestDebugMode.STUB,
-                stub = CoachRequestDebugStubs.BAD_NAME
+            debug = ProgramDebug(
+                mode = ProgramRequestDebugMode.STUB,
+                stub = ProgramRequestDebugStubs.BAD_TITLE
             ),
-            coach = CoachCreateObject(
-                email = "test@test.com",
-                password = "1234",
-                name = "Test",
+            program = ProgramCreateObject(
+                title = "",
                 description = ""
             )
         )
 
-        val context = CoachContext()
+        val context = ProgramContext()
         context.fromTransport(request)
 
         assertEquals(RequestId("123"), context.requestId)
-        assertEquals(CoachStubs.BAD_NAME, context.stubCase)
-        assertEquals("test@test.com", context.coachRequest.email)
+        assertEquals(ProgramStubs.BAD_TITLE, context.stubCase)
+        assertEquals("", context.programRequest.title)
     }
 
     @Test
     fun toTransport() {
-        val context = CoachContext(
+        val context = ProgramContext(
             requestId = RequestId("123"),
             state = ContextState.RUNNING,
-            command = CoachCommand.CREATE,
-            coachResponse = Coach(
-                email = "test@test.ru",
-                name = "John"
+            command = ProgramCommand.CREATE,
+            programResponse = Program(
+                title = "",
+                description = "foo"
             ),
             errors = mutableListOf(
                 GeneralError(
-                    code = "validation error",
+                    code = "validation.error",
                     group = "validation",
-                    field = "password",
-                    message = "not valid password",
+                    field = "title",
+                    message = "not valid title",
                 )
             )
         )
@@ -54,7 +52,7 @@ class MappersTest {
 
         assertEquals("123", request.requestId)
         assertEquals(ResponseResult.SUCCESS, request.result)
-        assertEquals("validation error", request.errors?.firstOrNull()?.code)
-        assertEquals("password", request.errors?.firstOrNull()?.field)
+        assertEquals("validation.error", request.errors?.firstOrNull()?.code)
+        assertEquals("title", request.errors?.firstOrNull()?.field)
     }
 }

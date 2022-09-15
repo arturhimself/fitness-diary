@@ -7,16 +7,14 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
 class RequestSerializationTest {
-    private val request = CoachCreateRequest(
+    private val request = ProgramCreateRequest(
         requestId = "123",
-        debug = CoachDebug(
-            mode = CoachRequestDebugMode.STUB,
-            stub = CoachRequestDebugStubs.BAD_EMAIL
+        debug = ProgramDebug(
+            mode = ProgramRequestDebugMode.STUB,
+            stub = ProgramRequestDebugStubs.BAD_TITLE
         ),
-        coach = CoachCreateObject(
-            email = "test@test.ru",
-            password = "1234",
-            name = "some name",
+        program = ProgramCreateObject(
+            title = "program title",
             description = "description",
         )
     )
@@ -25,16 +23,16 @@ class RequestSerializationTest {
     fun serialize() {
         val json = apiV1Mapper.writeValueAsString(request)
 
-        assertContains(json, Regex("\"name\":\\s*\"some name\""))
+        assertContains(json, Regex("\"title\":\\s*\"program title\""))
         assertContains(json, Regex("\"mode\":\\s*\"stub"))
-        assertContains(json, Regex("\"stub\":\\s*\"badEmail\""))
+        assertContains(json, Regex("\"stub\":\\s*\"badTitle\""))
         assertContains(json, Regex("\"requestType\":\\s*\"create\""))
     }
 
     @Test
     fun deserialize() {
         val json = apiV1Mapper.writeValueAsString(request)
-        val obj = apiV1Mapper.readValue(json, IRequest::class.java) as CoachCreateRequest
+        val obj = apiV1Mapper.readValue(json, IRequest::class.java) as ProgramCreateRequest
 
         assertEquals(request, obj)
     }

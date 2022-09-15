@@ -1,6 +1,6 @@
 package ru.artursitnikov.fitness.common.models
 
-enum class CoachCommand {
+enum class ProgramCommand {
     NONE,
     CREATE,
     READ,

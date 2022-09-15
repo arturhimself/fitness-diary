@@ -25,7 +25,7 @@ openApiGenerate {
     apiPackage.set("$openapiGroup.api")
     modelPackage.set("$openapiGroup.models")
     invokerPackage.set("$openapiGroup.invoker")
-    inputSpec.set("$rootDir/specs/spec-coach-v1.yml")
+    inputSpec.set("$rootDir/specs/spec-program-v1.yml")
 
     globalProperties.apply {
         put("models", "")

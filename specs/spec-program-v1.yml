@@ -3,18 +3,18 @@ info:
   version: 1.0.0
   title: Fitness Diary API
 tags:
-  - name: coach
+  - name: Program
 paths:
-  /api/v1/coach/create:
+  /api/v1/program/create:
     post:
       tags:
-        - coach
-      summary: Create a new coach
+        - Program
+      summary: Create a new Program
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CoachCreateRequest'
+              $ref: '#/components/schemas/ProgramCreateRequest'
         required: true
       responses:
         200:
@@ -22,18 +22,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CoachCreateResponse'
+                $ref: '#/components/schemas/ProgramCreateResponse'
 
-  /api/v1/coach/read:
+  /api/v1/program/read:
     post:
       tags:
-        - coach
-      summary: Read a coach
+        - Program
+      summary: Read a Program
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CoachReadRequest'
+              $ref: '#/components/schemas/ProgramReadRequest'
         required: true
       responses:
         200:
@@ -41,18 +41,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CoachReadResponse'
+                $ref: '#/components/schemas/ProgramReadResponse'
 
-  /api/v1/coach/update:
+  /api/v1/program/update:
     post:
       tags:
-        - coach
-      summary: Update a coach
+        - Program
+      summary: Update a Program
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CoachUpdateRequest'
+              $ref: '#/components/schemas/ProgramUpdateRequest'
         required: true
       responses:
         200:
@@ -60,18 +60,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CoachUpdateResponse'
+                $ref: '#/components/schemas/ProgramUpdateResponse'
 
-  /api/v1/coach/delete:
+  /api/v1/program/delete:
     post:
       tags:
-        - coach
-      summary: Delete a coach
+        - Program
+      summary: Delete a Program
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CoachDeleteRequest'
+              $ref: '#/components/schemas/ProgramDeleteRequest'
         required: true
       responses:
         200:
@@ -79,20 +79,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CoachDeleteResponse'
+                $ref: '#/components/schemas/ProgramDeleteResponse'
 
-  /api/v1/coach/list:
+  /api/v1/program/list:
     post:
       tags:
-        - coach
-      summary: List of coaches
-      operationId: coachList
+        - Program
+      summary: List of Programs
+      operationId: ProgramList
       requestBody:
         description: Request body
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CoachListRequest'
+              $ref: '#/components/schemas/ProgramListRequest'
         required: true
       responses:
         200:
@@ -100,7 +100,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CoachListResponse'
+                $ref: '#/components/schemas/ProgramListResponse'
 
 components:
   schemas:
@@ -118,11 +118,11 @@ components:
       discriminator:
         propertyName: requestType
         mapping:
-          create: '#/components/schemas/CoachCreateRequest'
-          read: '#/components/schemas/CoachReadRequest'
-          update: '#/components/schemas/CoachUpdateRequest'
-          delete: '#/components/schemas/CoachDeleteRequest'
-          list: '#/components/schemas/CoachListRequest'
+          create: '#/components/schemas/ProgramCreateRequest'
+          read: '#/components/schemas/ProgramReadRequest'
+          update: '#/components/schemas/ProgramUpdateRequest'
+          delete: '#/components/schemas/ProgramDeleteRequest'
+          list: '#/components/schemas/ProgramListRequest'
 
     Error:
       type: object
@@ -162,139 +162,141 @@ components:
       discriminator:
         propertyName: responseType
         mapping:
-          create: '#/components/schemas/CoachCreateResponse'
-          read: '#/components/schemas/CoachReadResponse'
-          update: '#/components/schemas/CoachUpdateResponse'
-          delete: '#/components/schemas/CoachDeleteResponse'
-          list: '#/components/schemas/CoachListResponse'
+          create: '#/components/schemas/ProgramCreateResponse'
+          read: '#/components/schemas/ProgramReadResponse'
+          update: '#/components/schemas/ProgramUpdateResponse'
+          delete: '#/components/schemas/ProgramDeleteResponse'
+          list: '#/components/schemas/ProgramListResponse'
 
-    CoachId:
+    ProgramId:
       type: integer
       format: int64
-      description: Id of a coach
+      description: Id of a Program
 
-    ClientId:
+    UserId:
       type: integer
       format: int64
-      description: If of client
+      description: Id of client
 
-    CoachLock:
+    ProgramLock:
       type: string
       description: Version of optimistic lock
 
-    BaseCoach:
+    BaseProgram:
       type: object
       description: Object for create and update action
       properties:
-        email:
+        owner_id:
+          $ref: '#/components/schemas/UserId'
+        client_id:
+          $ref: '#/components/schemas/UserId'
+        title:
           type: string
-          description: Email for registration
-          example: john@email.com
-        password:
-          type: string
-        name:
-          type: string
-          description: Name of a coach
         description:
           type: string
-          description: What a coach telling about himself
 
-    CoachCreateObject:
+    ProgramCreateObject:
       allOf:
-        - $ref: '#/components/schemas/BaseCoach'
+        - $ref: '#/components/schemas/BaseProgram'
 
-    CoachCreateRequest:
+    ProgramCreateRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/CoachRequestDebug'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
         - type: object
           properties:
-            coach:
-              $ref: '#/components/schemas/CoachCreateObject'
+            program:
+              $ref: '#/components/schemas/ProgramCreateObject'
 
-    CoachReadObject:
+    ProgramReadObject:
       allOf:
         - type: object
           properties:
             id:
-              $ref: '#/components/schemas/CoachId'
+              $ref: '#/components/schemas/ProgramId'
 
-    CoachReadRequest:
+    ProgramReadRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/CoachRequestDebug'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
         - type: object
           properties:
-            coach:
-              $ref: '#/components/schemas/CoachReadObject'
+            program:
+              $ref: '#/components/schemas/ProgramReadObject'
 
-    CoachUpdateObject:
+    ProgramUpdateObject:
       allOf:
-        - $ref: '#/components/schemas/BaseCoach'
+        - $ref: '#/components/schemas/BaseProgram'
         - type: object
           properties:
             id:
-              $ref: '#/components/schemas/CoachId'
+              $ref: '#/components/schemas/ProgramId'
             lock:
-              $ref: '#/components/schemas/CoachLock'
+              $ref: '#/components/schemas/ProgramLock'
 
-    CoachUpdateRequest:
+    ProgramUpdateRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/CoachRequestDebug'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
         - type: object
           properties:
-            coach:
-              $ref: '#/components/schemas/CoachUpdateObject'
+            program:
+              $ref: '#/components/schemas/ProgramUpdateObject'
 
-    CoachDeleteObject:
+    ProgramDeleteObject:
       allOf:
         - type: object
           properties:
             id:
-              $ref: '#/components/schemas/CoachId'
+              $ref: '#/components/schemas/ProgramId'
             lock:
-              $ref: '#/components/schemas/CoachLock'
+              $ref: '#/components/schemas/ProgramLock'
 
-    CoachDeleteRequest:
+    ProgramDeleteRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/CoachRequestDebug'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
         - type: object
           properties:
-            coach:
-              $ref: '#/components/schemas/CoachDeleteObject'
+            program:
+              $ref: '#/components/schemas/ProgramDeleteObject'
 
-    CoachListRequest:
+    ProgramListObject:
+      allOf:
+        - type: object
+          properties:
+            owner_id:
+              $ref: '#/components/schemas/UserId'
+
+    ProgramListRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/CoachRequestDebug'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
         - type: object
+          properties:
+            program:
+              $ref: '#/components/schemas/ProgramListObject'
 
-    CoachResponseObject:
+    ProgramResponseObject:
       allOf:
-        - $ref: '#/components/schemas/BaseCoach'
+        - $ref: '#/components/schemas/BaseProgram'
         - type: object
           description: Object for response
           properties:
             id:
-              $ref: '#/components/schemas/CoachId'
-            clients:
-              type: array
-              items:
-                $ref: '#/components/schemas/ClientId'
+              $ref: '#/components/schemas/ProgramId'
             lock:
-              $ref: '#/components/schemas/CoachLock'
+              $ref: '#/components/schemas/ProgramLock'
 
-    CoachResponseSingle:
+    ProgramResponseSingle:
       allOf:
         - type: object
           description: Response with one object
           properties:
-            coach:
-              $ref: '#/components/schemas/CoachResponseObject'
+            program:
+              $ref: '#/components/schemas/ProgramResponseObject'
 
-    CoachResponseMulti:
+    ProgramResponseMulti:
       allOf:
         - type: object
           description: List of objects
@@ -302,64 +304,61 @@ components:
             list:
               type: array
               items:
-                $ref: '#/components/schemas/CoachResponseObject'
+                $ref: '#/components/schemas/ProgramResponseObject'
 
-    CoachCreateResponse:
+    ProgramCreateResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/CoachResponseSingle'
+        - $ref: '#/components/schemas/ProgramResponseSingle'
 
-    CoachReadResponse:
+    ProgramReadResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/CoachResponseSingle'
+        - $ref: '#/components/schemas/ProgramResponseSingle'
 
-    CoachUpdateResponse:
+    ProgramUpdateResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/CoachResponseSingle'
+        - $ref: '#/components/schemas/ProgramResponseSingle'
 
-    CoachDeleteResponse:
+    ProgramDeleteResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/CoachResponseSingle'
+        - $ref: '#/components/schemas/ProgramResponseSingle'
 
-    CoachListResponse:
+    ProgramListResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
-        - $ref: '#/components/schemas/CoachResponseMulti'
+        - $ref: '#/components/schemas/ProgramResponseMulti'
 
     # STUBS ======================
-    CoachRequestDebugMode:
+    ProgramRequestDebugMode:
       type: string
       enum:
         - prod
         - test
         - stub
 
-    CoachRequestDebug:
+    ProgramRequestDebug:
       type: object
       properties:
         debug:
-          $ref: '#/components/schemas/CoachDebug'
+          $ref: '#/components/schemas/ProgramDebug'
 
-    CoachDebug:
+    ProgramDebug:
       type: object
       properties:
         mode:
-          $ref: '#/components/schemas/CoachRequestDebugMode'
+          $ref: '#/components/schemas/ProgramRequestDebugMode'
         stub:
-          $ref: '#/components/schemas/CoachRequestDebugStubs'
+          $ref: '#/components/schemas/ProgramRequestDebugStubs'
 
-    CoachRequestDebugStubs:
+    ProgramRequestDebugStubs:
       type: string
       description: List of stubs
       enum:
         - success
         - notFound
         - badId
-        - badName
-        - badEmail
-        - badPassword
-        - badDescription
+        - badTitle
         - cannotDelete

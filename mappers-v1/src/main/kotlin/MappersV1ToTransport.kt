@@ -1,61 +1,61 @@
-import exceptions.UnknownCoachCommand
+import exceptions.UnknownProgramCommand
 import ru.artursitnikov.fitness.api.v1.models.*
-import ru.artursitnikov.fitness.common.CoachContext
+import ru.artursitnikov.fitness.common.ProgramContext
 import ru.artursitnikov.fitness.common.models.*
 import ru.artursitnikov.fitness.api.v1.models.Error as ApiError
 
-fun CoachContext.toTransport(): IResponse = when(val cmd = command) {
-    CoachCommand.CREATE -> toTransportCreate()
-    CoachCommand.READ -> toTransportRead()
-    CoachCommand.UPDATE -> toTransportUpdate()
-    CoachCommand.DELETE -> toTransportDelete()
-    CoachCommand.LIST -> toTransportList()
-    CoachCommand.NONE -> throw UnknownCoachCommand(cmd)
+fun ProgramContext.toTransport(): IResponse = when(val cmd = command) {
+    ProgramCommand.CREATE -> toTransportCreate()
+    ProgramCommand.READ -> toTransportRead()
+    ProgramCommand.UPDATE -> toTransportUpdate()
+    ProgramCommand.DELETE -> toTransportDelete()
+    ProgramCommand.LIST -> toTransportList()
+    ProgramCommand.NONE -> throw UnknownProgramCommand(cmd)
 }
 
-fun CoachContext.toTransportCreate() = CoachCreateResponse(
+fun ProgramContext.toTransportCreate() = ProgramCreateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == ContextState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
-    coach = coachResponse.toTransport()
+    program = programResponse.toTransport()
 )
 
-fun CoachContext.toTransportRead() = CoachReadResponse(
+fun ProgramContext.toTransportRead() = ProgramReadResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == ContextState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
-    coach = coachResponse.toTransport()
+    program = programResponse.toTransport()
 )
 
-fun CoachContext.toTransportUpdate() = CoachUpdateResponse(
+fun ProgramContext.toTransportUpdate() = ProgramUpdateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == ContextState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
-    coach = coachResponse.toTransport()
+    program = programResponse.toTransport()
 )
 
-fun CoachContext.toTransportDelete() = CoachDeleteResponse(
+fun ProgramContext.toTransportDelete() = ProgramDeleteResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == ContextState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
-    coach = coachResponse.toTransport()
+    program = programResponse.toTransport()
 )
 
-fun CoachContext.toTransportList() = CoachListResponse(
+fun ProgramContext.toTransportList() = ProgramListResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == ContextState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
-    list = coachListResponse.toTransport()
+    list = programListResponse.toTransport()
 )
 
-private fun List<Coach>.toTransport() =
+private fun List<Program>.toTransport() =
     this.map { it.toTransport() }.takeIf { it.isNotEmpty() }
 
-private fun Coach.toTransport() = CoachResponseObject(
-    id = id.takeIf { it != CoachId.NONE }?.asLong(),
-    email = email.takeIf { it.isNotBlank() },
-    password = password.takeIf { it.isNotBlank() },
-    name = name.takeIf { it.isNotBlank() },
+private fun Program.toTransport() = ProgramResponseObject(
+    id = id.takeIf { it != ProgramId.NONE }?.asLong(),
+    ownerId = ownerId.takeIf { it != UserId.NONE }?.asLong(),
+    clientId = clientId.takeIf { it != UserId.NONE }?.asLong(),
+    title = title.takeIf { it.isNotBlank() },
     description = description.takeIf { it.isNotBlank() },
 )
 
