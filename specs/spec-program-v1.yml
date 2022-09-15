@@ -1,0 +1,364 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Fitness Diary API
+tags:
+  - name: Program
+paths:
+  /api/v1/program/create:
+    post:
+      tags:
+        - Program
+      summary: Create a new Program
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgramCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Successful creation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramCreateResponse'
+
+  /api/v1/program/read:
+    post:
+      tags:
+        - Program
+      summary: Read a Program
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgramReadRequest'
+        required: true
+      responses:
+        200:
+          description: Successful creation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramReadResponse'
+
+  /api/v1/program/update:
+    post:
+      tags:
+        - Program
+      summary: Update a Program
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgramUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramUpdateResponse'
+
+  /api/v1/program/delete:
+    post:
+      tags:
+        - Program
+      summary: Delete a Program
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgramDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Successful deletion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramDeleteResponse'
+
+  /api/v1/program/list:
+    post:
+      tags:
+        - Program
+      summary: List of Programs
+      operationId: ProgramList
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgramListRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramListResponse'
+
+components:
+  schemas:
+    IRequest:
+      type: object
+      description: Base interface for requests
+      properties:
+        requestType:
+          type: string
+          description: Field discriminator for getting a type of request
+          example: create
+        requestId:
+          type: string
+          description: Id for debug
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/ProgramCreateRequest'
+          read: '#/components/schemas/ProgramReadRequest'
+          update: '#/components/schemas/ProgramUpdateRequest'
+          delete: '#/components/schemas/ProgramDeleteRequest'
+          list: '#/components/schemas/ProgramListRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IResponse:
+      type: object
+      description: Base interface for responses
+      properties:
+        responseType:
+          type: string
+          description: Field discriminator for getting a type of request
+          example: create
+        requestId:
+          type: string
+          description: Id of request for debug
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/ProgramCreateResponse'
+          read: '#/components/schemas/ProgramReadResponse'
+          update: '#/components/schemas/ProgramUpdateResponse'
+          delete: '#/components/schemas/ProgramDeleteResponse'
+          list: '#/components/schemas/ProgramListResponse'
+
+    ProgramId:
+      type: integer
+      format: int64
+      description: Id of a Program
+
+    UserId:
+      type: integer
+      format: int64
+      description: Id of client
+
+    ProgramLock:
+      type: string
+      description: Version of optimistic lock
+
+    BaseProgram:
+      type: object
+      description: Object for create and update action
+      properties:
+        owner_id:
+          $ref: '#/components/schemas/UserId'
+        client_id:
+          $ref: '#/components/schemas/UserId'
+        title:
+          type: string
+        description:
+          type: string
+
+    ProgramCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseProgram'
+
+    ProgramCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
+        - type: object
+          properties:
+            program:
+              $ref: '#/components/schemas/ProgramCreateObject'
+
+    ProgramReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/ProgramId'
+
+    ProgramReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
+        - type: object
+          properties:
+            program:
+              $ref: '#/components/schemas/ProgramReadObject'
+
+    ProgramUpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseProgram'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/ProgramId'
+            lock:
+              $ref: '#/components/schemas/ProgramLock'
+
+    ProgramUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
+        - type: object
+          properties:
+            program:
+              $ref: '#/components/schemas/ProgramUpdateObject'
+
+    ProgramDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/ProgramId'
+            lock:
+              $ref: '#/components/schemas/ProgramLock'
+
+    ProgramDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
+        - type: object
+          properties:
+            program:
+              $ref: '#/components/schemas/ProgramDeleteObject'
+
+    ProgramListObject:
+      allOf:
+        - type: object
+          properties:
+            owner_id:
+              $ref: '#/components/schemas/UserId'
+
+    ProgramListRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProgramRequestDebug'
+        - type: object
+          properties:
+            program:
+              $ref: '#/components/schemas/ProgramListObject'
+
+    ProgramResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseProgram'
+        - type: object
+          description: Object for response
+          properties:
+            id:
+              $ref: '#/components/schemas/ProgramId'
+            lock:
+              $ref: '#/components/schemas/ProgramLock'
+
+    ProgramResponseSingle:
+      allOf:
+        - type: object
+          description: Response with one object
+          properties:
+            program:
+              $ref: '#/components/schemas/ProgramResponseObject'
+
+    ProgramResponseMulti:
+      allOf:
+        - type: object
+          description: List of objects
+          properties:
+            list:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProgramResponseObject'
+
+    ProgramCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProgramResponseSingle'
+
+    ProgramReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProgramResponseSingle'
+
+    ProgramUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProgramResponseSingle'
+
+    ProgramDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProgramResponseSingle'
+
+    ProgramListResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProgramResponseMulti'
+
+    # STUBS ======================
+    ProgramRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    ProgramRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/ProgramDebug'
+
+    ProgramDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/ProgramRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/ProgramRequestDebugStubs'
+
+    ProgramRequestDebugStubs:
+      type: string
+      description: List of stubs
+      enum:
+        - success
+        - notFound
+        - badId
+        - badTitle
+        - cannotDelete
