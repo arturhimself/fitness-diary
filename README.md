@@ -20,6 +20,4 @@
 
 ## Functionality
 
-- CRUD для тренера
-- CRUD клиента
 - CRUD программы тренировок
