@@ -10,8 +10,9 @@ pluginManagement {
 
         kotlin("jvm") version kotlinVersion apply false
         id("org.openapi.generator") version openapiVersion apply false
-        val pluginSpringVersion: String by settings
+        kotlin("plugin.serialization") version kotlinVersion apply false
 
+        val pluginSpringVersion: String by settings
         id("org.springframework.boot") version springframeworkBootVersion apply false
         id("io.spring.dependency-management") version springDependencyManagementVersion apply false
         kotlin("plugin.spring") version pluginSpringVersion apply false
