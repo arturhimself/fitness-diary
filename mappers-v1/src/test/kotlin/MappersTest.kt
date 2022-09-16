@@ -3,6 +3,8 @@ import ru.artursitnikov.fitness.api.v1.models.*
 import ru.artursitnikov.fitness.common.ProgramContext
 import ru.artursitnikov.fitness.common.models.*
 import ru.artursitnikov.fitness.common.stubs.ProgramStubs
+import ru.artursitnikov.fitness.mappers.v1.fromTransport
+import ru.artursitnikov.fitness.mappers.v1.toTransport
 import kotlin.test.assertEquals
 
 class MappersTest {

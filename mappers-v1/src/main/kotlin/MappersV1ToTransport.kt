@@ -1,3 +1,5 @@
+package ru.artursitnikov.fitness.mappers.v1
+
 import exceptions.UnknownProgramCommand
 import ru.artursitnikov.fitness.api.v1.models.*
 import ru.artursitnikov.fitness.common.ProgramContext
