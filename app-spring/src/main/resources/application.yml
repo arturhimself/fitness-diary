@@ -1,0 +1,7 @@
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    urls:
+      - name: program-v1
+        url: spec-program-v1.yml
