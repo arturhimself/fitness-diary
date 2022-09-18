@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
 	val springdocOpenapiUiVersion: String by project
+	val coroutinesVersion: String by project
 
 	implementation(project(":api-v1"))
 	implementation(project(":mappers-v1"))
@@ -29,10 +30,15 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${coroutinesVersion}")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:${coroutinesVersion}")
+	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.mockito:mockito-core:4.8.0")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+	testImplementation("org.assertj:assertj-core:3.23.1")
 }
 
 tasks.withType<KotlinCompile> {

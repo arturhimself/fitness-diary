@@ -14,7 +14,7 @@ import ru.artursitnikov.fitness.stubs.ProgramStub
 class ProgramController {
 
     @PostMapping("create")
-    fun createProgram(@RequestBody request: ProgramCreateRequest): ProgramCreateResponse {
+    suspend fun createProgram(@RequestBody request: ProgramCreateRequest): ProgramCreateResponse {
         val context = ProgramContext()
         context.fromTransport(request)
         context.programResponse = ProgramStub.get()
@@ -22,7 +22,7 @@ class ProgramController {
     }
 
     @PostMapping("read")
-    fun readProgram(@RequestBody request: ProgramReadRequest): ProgramReadResponse {
+    suspend fun readProgram(@RequestBody request: ProgramReadRequest): ProgramReadResponse {
         val context = ProgramContext()
         context.fromTransport(request)
         context.programResponse = ProgramStub.get()
@@ -30,7 +30,7 @@ class ProgramController {
     }
 
     @PostMapping("update")
-    fun updateProgram(@RequestBody request: ProgramUpdateRequest): ProgramUpdateResponse {
+    suspend fun updateProgram(@RequestBody request: ProgramUpdateRequest): ProgramUpdateResponse {
         val context = ProgramContext()
         context.fromTransport(request)
         context.programResponse = ProgramStub.get()
@@ -38,7 +38,7 @@ class ProgramController {
     }
 
     @PostMapping("delete")
-    fun deleteProgram(@RequestBody request: ProgramDeleteRequest): ProgramDeleteResponse {
+    suspend fun deleteProgram(@RequestBody request: ProgramDeleteRequest): ProgramDeleteResponse {
         val context = ProgramContext()
         context.fromTransport(request)
         context.programResponse = ProgramStub.get()
@@ -46,7 +46,7 @@ class ProgramController {
     }
 
     @PostMapping("list")
-    fun listProgram(@RequestBody request: ProgramListRequest): ProgramListResponse {
+    suspend fun listProgram(@RequestBody request: ProgramListRequest): ProgramListResponse {
         val context = ProgramContext()
         context.fromTransport(request)
         context.programListResponse = ProgramStub.getList()
