@@ -23,5 +23,7 @@ pluginManagement {
 include("common")
 include("api-v1")
 include("mappers-v1")
-include ("app-spring")
+include("app-spring")
 include("stubs")
+include("biz")
+include("lib-cor")
