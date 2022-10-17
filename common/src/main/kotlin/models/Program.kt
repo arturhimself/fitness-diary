@@ -6,4 +6,6 @@ data class Program(
     var clientId: UserId = UserId.NONE,
     var title: String = "",
     var description: String = "",
-)
+) {
+    fun deepCopy() = copy()
+}

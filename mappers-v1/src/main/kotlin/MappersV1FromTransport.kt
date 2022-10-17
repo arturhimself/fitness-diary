@@ -48,7 +48,7 @@ fun ProgramContext.fromTransport(request: ProgramDeleteRequest) {
 }
 
 fun ProgramContext.fromTransport(request: ProgramListRequest) {
-    command = ProgramCommand.READ
+    command = ProgramCommand.LIST
     requestId = request.requestId()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
@@ -77,6 +77,8 @@ private fun ProgramDebug?.transportToWorkMode(): WorkMode = when(this?.mode) {
 private fun ProgramCreateObject.toInternal() = Program(
     title = this.title ?: "",
     description = this.description ?: "",
+    ownerId = this.ownerId?.let { UserId(this.ownerId!!) } ?: UserId.NONE,
+    clientId = this.clientId?.let { UserId(this.clientId!!) } ?: UserId.NONE,
 )
 
 private fun ProgramUpdateObject.toInternal() = Program(

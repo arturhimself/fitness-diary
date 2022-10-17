@@ -12,6 +12,9 @@ data class ProgramContext(
     var workMode: WorkMode = WorkMode.PROD,
     var stubCase: ProgramStubs = ProgramStubs.NONE,
 
+    var programValidating: Program = Program(),
+    var programValidated: Program = Program(),
+
     var requestId: RequestId = RequestId.NONE,
     var timeStart: Instant = Instant.NONE,
     var programRequest: Program = Program(),
