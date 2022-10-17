@@ -22,6 +22,7 @@ dependencies {
 	implementation(project(":mappers-v1"))
 	implementation(project(":common"))
 	implementation(project(":stubs"))
+	implementation(project(":biz"))
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")

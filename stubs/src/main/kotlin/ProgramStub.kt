@@ -23,4 +23,6 @@ object ProgramStub {
         this.id = id
         this.clientId = clientId
     }
+
+    fun prepareResult(block: Program.() -> Unit): Program = get().apply(block)
 }
