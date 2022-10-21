@@ -17,4 +17,6 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+
+    testImplementation(kotlin("test"))
 }
