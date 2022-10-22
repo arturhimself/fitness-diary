@@ -17,17 +17,20 @@ repositories {
 dependencies {
 	val springdocOpenapiUiVersion: String by project
 	val coroutinesVersion: String by project
+	val springKafkaVersion: String by project
 
 	implementation(project(":api-v1"))
 	implementation(project(":mappers-v1"))
 	implementation(project(":common"))
 	implementation(project(":stubs"))
 	implementation(project(":biz"))
+	implementation(project(":kafka"))
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springdoc:springdoc-openapi-ui:$springdocOpenapiUiVersion")
+	implementation("org.springframework.kafka:spring-kafka:$springKafkaVersion")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
