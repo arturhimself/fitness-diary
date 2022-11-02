@@ -35,4 +35,8 @@ abstract class RepoCreateProgramTest {
         assertEquals(emptyList(), result.errors)
         assertEquals(lockNew, result.data?.lock)
     }
+
+    companion object : BaseInitAds() {
+        override val initObjects: List<Program> = emptyList()
+    }
 }
