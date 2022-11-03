@@ -5,7 +5,7 @@ import ru.artursitnikov.fitness.common.models.ProgramId
 import ru.artursitnikov.fitness.common.models.ProgramLock
 import ru.artursitnikov.fitness.common.models.UserId
 
-abstract class BaseInitAds() : InitObjects<Program> {
+abstract class BaseInitAds : InitObjects<Program> {
     open val lockOld: ProgramLock = ProgramLock("20000000-0000-0000-0000-000000000001")
 
     open val lockBad: ProgramLock = ProgramLock("20000000-0000-0000-0000-000000000009")

@@ -34,7 +34,7 @@ abstract class RepoDeleteProgramTest {
     }
 
     @Test
-    fun updateConcurrency() = runTest {
+    fun deleteConcurrency() = runTest {
         val result = repo.delete(ProgramDbIdRequest(successId, lockBad))
         assertEquals(false, result.isSuccess)
         val error = result.errors.find { it.code == "concurrency" }

@@ -5,7 +5,6 @@ import io.github.reactivecircus.cache4k.Cache
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.artursitnikov.fitness.common.helpers.errorRepoConcurrency
-import ru.artursitnikov.fitness.common.models.GeneralError
 import ru.artursitnikov.fitness.common.models.Program
 import ru.artursitnikov.fitness.common.models.ProgramId
 import ru.artursitnikov.fitness.common.models.ProgramLock
@@ -106,44 +105,5 @@ class ProgramRepoInmemory(
                 }
             }
         }
-    }
-
-    companion object {
-        val resultErrorEmptyId = ProgramDbResponse(
-            data = null,
-            isSuccess = false,
-            errors = listOf(
-                GeneralError(
-                    code = "id-empty",
-                    group = "validation",
-                    field = "id",
-                    message = "Id must not be null"
-                )
-            )
-        )
-        val resultErrorEmptyLock = ProgramDbResponse(
-            data = null,
-            isSuccess = false,
-            errors = listOf(
-                GeneralError(
-                    code = "lock-empty",
-                    group = "validation",
-                    field = "lock",
-                    message = "Lock must not be null or blank"
-                )
-            )
-        )
-        val resultErrorNotFound = fun (id: String) =
-            ProgramDbResponse(
-                isSuccess = false,
-                data = null,
-                errors = listOf(
-                    GeneralError(
-                        code = "not-found",
-                        field = "id",
-                        message = "Entity with id=$id not found"
-                    )
-                )
-            )
     }
 }

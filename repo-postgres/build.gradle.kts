@@ -27,5 +27,6 @@ tasks {
         environment("DATABASE_USER", "postgres")
         environment("DATABASE_PASSWORD", "postgres")
         environment("DATABASE_SCHEMA", "public")
+        environment("DROP_DB", true)
     }
 }

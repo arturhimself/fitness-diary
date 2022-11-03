@@ -34,6 +34,6 @@ object SqlTestCompanion {
             password = PASS,
             schema = SCHEMA
         )
-        return ProgramRepoSql(config, randomUuid = randomUuid)
+        return ProgramRepoSql(config, initObjects, randomUuid)
     }
 }
