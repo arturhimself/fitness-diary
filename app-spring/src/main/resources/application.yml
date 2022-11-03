@@ -22,3 +22,9 @@ springdoc:
     urls:
       - name: program-v1
         url: spec-program-v1.yml
+
+database:
+  url: jdbc:postgresql://localhost:5432/fitness
+  user: postgres
+  password: postgres
+  schema: public
