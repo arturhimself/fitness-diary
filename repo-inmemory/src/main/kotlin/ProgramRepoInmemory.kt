@@ -11,6 +11,10 @@ import ru.artursitnikov.fitness.common.models.ProgramLock
 import ru.artursitnikov.fitness.common.repo.*
 import ru.artursitnikov.fitness.repo.inmemory.models.ProgramEntity
 
+/**
+ * In memory repository.
+ * Use for tests or prototypes only
+ */
 class ProgramRepoInmemory(
     initObjects: List<Program> = emptyList(),
     private val randomUuid: () -> String = { uuid4().toString() }

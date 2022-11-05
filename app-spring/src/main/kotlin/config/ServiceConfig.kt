@@ -9,6 +9,7 @@ import ru.artursitnikov.fitness.common.models.Settings
 import ru.artursitnikov.fitness.repo.inmemory.ProgramRepoInmemory
 import ru.artursitnikov.fitness.repo.postgres.DbConfig
 import ru.artursitnikov.fitness.repo.postgres.ProgramRepoSql
+import ru.artursitnikov.fitness.repo.postgres.exception.DbConfigParamException
 
 @Configuration
 class ServiceConfig {
@@ -21,10 +22,10 @@ class ServiceConfig {
             settings = Settings(
                 repoTest = ProgramRepoInmemory(),
                 repoProd = ProgramRepoSql(config = DbConfig(
-                    url = env.getProperty("database.url")!!,
-                    user = env.getProperty("database.user")!!,
-                    password = env.getProperty("database.password")!!,
-                    schema = env.getProperty("database.schema")!!,
+                    url = env.getProperty("database.url") ?: throw DbConfigParamException("url"),
+                    user = env.getProperty("database.user") ?: throw DbConfigParamException("user"),
+                    password = env.getProperty("database.password") ?: throw DbConfigParamException("password"),
+                    schema = env.getProperty("database.schema") ?: throw DbConfigParamException("schema"),
                 ))
             ))
     }
