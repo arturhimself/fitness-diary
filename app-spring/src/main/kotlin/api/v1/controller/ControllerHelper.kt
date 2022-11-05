@@ -21,7 +21,6 @@ suspend inline fun <reified Q : IRequest, reified R : IResponse> processV1(
     )
     return try {
         context.fromTransport(request)
-        println(context.programRequest.toString())
         processor.exec(context)
         context.toTransport() as R
     } catch (e: Throwable) {

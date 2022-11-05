@@ -25,6 +25,8 @@ dependencies {
 	implementation(project(":stubs"))
 	implementation(project(":biz"))
 	implementation(project(":kafka"))
+	implementation(project(":repo-inmemory"))
+	implementation(project(":repo-postgres"))
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
